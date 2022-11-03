@@ -9,32 +9,51 @@ void main() {
         ),
         backgroundColor: Colors.green,
       ),
-      body: Column(
-        children: [
-          Card(
-            child: ListTile(
-              leading: Icon(Icons.monetization_on),
-              title: Text('100.0'),
-              subtitle: Text('1000'),
-            )
-          ),
-          Card(
-              child: ListTile(
-                leading: Icon(Icons.monetization_on),
-                title: Text('100.0'),
-                subtitle: Text('1000'),
-              )
-          ),
-        ],
-      ),
-
+      body: const ListaTransferencia(),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {  },
+        onPressed: () {},
         backgroundColor: Colors.green,
         child: const Icon(Icons.add),
-
-
       ),
     ),
   ));
+}
+
+class ListaTransferencia extends StatelessWidget {
+  const ListaTransferencia({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        ItemTransferencia(Transferencia(100.0, '5874-22')),
+      ],
+    );
+  }
+}
+
+class ItemTransferencia extends StatelessWidget {
+
+  final Transferencia _transferencia;
+
+  ItemTransferencia(this._transferencia);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+        child: ListTile(
+      leading: Icon(Icons.monetization_on),
+      title: Text(_transferencia.valor.toString()),
+      subtitle: Text(
+        _transferencia.n_conta.toString(),
+      ),
+    ));
+  }
+}
+
+class Transferencia {
+  final double valor;
+  final String n_conta;
+
+  Transferencia(this.valor, this.n_conta);
 }
