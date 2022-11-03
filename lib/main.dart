@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MaterialApp(
-    home: Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Transferencias",
+  runApp(ByteBankApp());
+}
+
+class ByteBankApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            "Nova Transferencias",
+          ),
+          backgroundColor: Colors.green,
         ),
-        backgroundColor: Colors.green,
+        body: const FormularioTrasferencia(),
       ),
-      body: const ListaTransferencia(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: Colors.green,
-        child: const Icon(Icons.add),
-      ),
-    ),
-  ));
+    );
+  }
 }
 
 class ListaTransferencia extends StatelessWidget {
@@ -24,16 +26,28 @@ class ListaTransferencia extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        ItemTransferencia(Transferencia(100.0, '5874-22')),
-      ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "Transferencias",
+        ),
+        backgroundColor: Colors.green,
+      ),
+      body: Column(
+        children: <Widget>[
+          ItemTransferencia(Transferencia(100.0, '5874-22')),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        backgroundColor: Colors.green,
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
 
 class ItemTransferencia extends StatelessWidget {
-
   final Transferencia _transferencia;
 
   ItemTransferencia(this._transferencia);
@@ -56,4 +70,13 @@ class Transferencia {
   final String n_conta;
 
   Transferencia(this.valor, this.n_conta);
+}
+
+class FormularioTrasferencia extends StatelessWidget {
+  const FormularioTrasferencia({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
 }
