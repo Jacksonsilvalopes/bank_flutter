@@ -12,7 +12,7 @@ class ByteBankApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: FormularioTrasferencia(),
+      home: ListaTransferencia(),
     );
   }
 }
@@ -35,7 +35,13 @@ class ListaTransferencia extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+         final Future future = Navigator.push(context,MaterialPageRoute(builder: (context){
+            return FormularioTrasferencia();
+          }));
+
+         future.then((transferenciaRecebida) => debugPrint('$transferenciaRecebida'));
+        },
         backgroundColor: Colors.green,
         child: const Icon(Icons.add),
       ),
@@ -100,10 +106,10 @@ class FormularioTrasferencia extends StatelessWidget {
               icone: Icons.account_balance,
             ),
             ImputForms(
-              imputado: _contaController,
+              imputado: _valorController,
               rotulo: 'Valor R\$',
               modelo: "1000.0",
-              icone: Icons.account_balance,
+              icone: Icons.monetization_on,
             ),
 
             Padding(
@@ -115,14 +121,16 @@ class FormularioTrasferencia extends StatelessWidget {
                     final trans = Transferencia(
                         double.parse(_valorController.text),
                         _contaController.text);
-                    debugPrint('$trans');
+
+                    //enviando dados recebidos
+                    Navigator.pop(context, trans);
 
                     AnimatedSnackBar.material(
                       'Transferencia Realizada',
                       type: AnimatedSnackBarType.success,
                       mobileSnackBarPosition: MobileSnackBarPosition.bottom,
                       desktopSnackBarPosition: DesktopSnackBarPosition.topRight,
-                      duration: const Duration(milliseconds: 50),
+                      duration: const Duration(milliseconds: 100),
                     ).show(context);
                   } catch (e) { }
                 },
