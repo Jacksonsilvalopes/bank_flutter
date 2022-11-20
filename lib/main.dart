@@ -1,11 +1,19 @@
+
+
+import 'package:bank/models/saldo.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
-import 'screens/transferencia/lista.dart';
+import 'screens/dashboard/dashboard.dart';
+
 
 void main() {
-  runApp(const ByteBankApp());
+  runApp(ChangeNotifierProvider (
+    create: (context) => Saldo(0),
+    child: const ByteBankApp(),
+  ));
 }
 
 class ByteBankApp extends StatelessWidget {
@@ -15,27 +23,14 @@ class ByteBankApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-    theme: ThemeData(
-      colorScheme: ColorScheme.fromSwatch(
-        primarySwatch: Colors.indigo,
-        accentColor: Colors.amber,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Colors.indigo,
+          accentColor: Colors.amber,
+        ),
+        textTheme: GoogleFonts.montserratTextTheme(),
       ),
-    textTheme: GoogleFonts.montserratTextTheme(
-
-    ),
-
-    ),
-      home: ListaTransferencia(),
+      home: const Dashboard(),
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
