@@ -3,6 +3,9 @@ import 'package:provider/provider.dart';
 
 import '../../models/saldo.dart';
 import '../deposito/deposito_component.dart';
+import '../transferencia/formulario.dart';
+import '../transferencia/lista.dart';
+import '../transferencia/ultimas.dart';
 import 'saldo_component.dart';
 
 class Dashboard extends StatelessWidget {
@@ -10,6 +13,8 @@ class Dashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var shape = const CircularNotchedRectangle();
+
     return Scaffold(
       appBar: AppBar(
         title: Row(children: [
@@ -24,29 +29,84 @@ class Dashboard extends StatelessWidget {
           )
         ]),
       ),
-      body:  Padding(
-        padding: const EdgeInsets.only(left: 30.0, right: 30.0),
-        child: Column(
-
-
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children:  [
-            const Align(
-              alignment: Alignment.topCenter,
-              child: SaldoComponent(),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 30.0, right: 30.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: const [
+              Align(
+                alignment: Alignment.topCenter,
+                child: SaldoComponent(),
+              ),
+           /*   Consumer<Saldo>(
+                builder: (context, saldo, child) {
+                  return ElevatedButton(
+                      onPressed: () {
+                        saldo.addSaldo(35);
+                      },
+                      child: const Text('Adicionar'));
+                },
+              ),
+              Consumer<Saldo>(
+                builder: (context, saldo, child) {
+                  return ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return DepositoComponent();
+                        }));
+                      },
+                      child: const Text('Despositar'));
+                },
+              ),*/
+              Padding(
+                padding: EdgeInsets.only(top: 18.0),
+                child: UltimasTransferencias(),
+              ),
+            ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: SizedBox(
+        height: 130,
+        child: BottomNavigationBar(
+          iconSize: 36,
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: IconButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return DepositoComponent();
+                    }));
+                  },
+                  icon: Icon(Icons.monetization_on)),
+              label: 'CREDITAR',
             ),
-            Consumer<Saldo>(builder: (context, saldo, child){
-              return ElevatedButton(onPressed: (){
-                saldo.addSaldo(35);
-              }, child: const Text('Adicionar'));
-            },),
-            Consumer<Saldo>(builder: (context, saldo, child){
-              return ElevatedButton(onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return DepositoComponent();
-                }));
-              }, child: const Text('Despositar'));
-            },),
+            BottomNavigationBarItem(
+              icon: IconButton(
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (contex){
+                      return FormularioTrasferencia();
+                    }));
+                  },
+                  icon: const Icon(
+                    Icons.monetization_on,
+                    size: 36,
+                  )),
+              label: 'TRANSFERIR',
+            ),
+            BottomNavigationBarItem(
+              icon: IconButton(
+                  onPressed: () {
+                    Navigator.push(context,MaterialPageRoute(builder: (context){
+                      return ListaTransferencia();
+                    }
+                    ),);
+                  }, icon: Icon(Icons.arrow_upward_outlined)),
+              label: 'VER TODAS',
+            ),
 
           ],
         ),

@@ -1,18 +1,23 @@
-import 'package:bank/models/transferencia.dart';
+
 import 'package:bank/screens/transferencia/formulario.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../models/transacao_tranferencias.dart';
+import 'item_transferencia.dart';
 
 class ListaTransferencia extends StatefulWidget {
-  final List<Transferencia> _transferencia = [];
+  const ListaTransferencia({super.key});
 
-  ListaTransferencia({super.key});
   @override
-  State<ListaTransferencia> createState() => ListaTransferenciaState();
+  State<ListaTransferencia> createState() => _ListaTransferenciaState();
 }
 
-class ListaTransferenciaState extends State<ListaTransferencia> {
+class _ListaTransferenciaState extends State<ListaTransferencia> {
   @override
   Widget build(BuildContext context) {
+   final trans = _getTransferencia(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -21,22 +26,42 @@ class ListaTransferenciaState extends State<ListaTransferencia> {
         //  backgroundColor: Colors.green,
       ),
       body: ListView.builder(
-        itemCount: widget._transferencia.length,
+        itemCount: trans.length,
         itemBuilder: (context, indice) {
-          final trasferenciaOne = widget._transferencia[indice];
+          final trasferenciaOne = trans[indice];
           return ItemTransferencia(trasferenciaOne);
         },
       ),
+   /* return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "Transferencias",
+        ),
+        //  backgroundColor: Colors.green,
+      ),
+      body: Consumer<TransacaoTransferencias>(
+        builder:(context, transferencias,child){
+          return  ListView.builder(
+          itemCount: transferencias.tranfrencias.length,
+          itemBuilder: (context, indice) {
+          final trasferenciaOne = transferencias.tranfrencias[indice];
+          return ItemTransferencia(trasferenciaOne);
+          },
+          );
+        } ,
+
+      ),*/
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+
           final Future future =
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
             return FormularioTrasferencia();
           }));
 
           future.then((transferenciaRecebida) {
             setState(() {
-              widget._transferencia.add(transferenciaRecebida);
+
             });
           });
         },
@@ -45,22 +70,10 @@ class ListaTransferenciaState extends State<ListaTransferencia> {
       ),
     );
   }
-}
-
-class ItemTransferencia extends StatelessWidget {
-  final Transferencia _transferencia;
-
-  const ItemTransferencia(this._transferencia, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-        child: ListTile(
-      leading: const Icon(Icons.monetization_on),
-      title: Text('Valor: ${_transferencia.valor.toString()}'),
-      subtitle: Text(
-        'Conta: ${_transferencia.n_conta.toString()}',
-      ),
-    ));
+ _getTransferencia(context) {
+    final trans = Provider.of<TransacaoTransferencias>(context, listen: false)
+        .tranfrencias;
+    return trans;
   }
 }
+
